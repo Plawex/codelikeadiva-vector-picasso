@@ -24,19 +24,22 @@ class ArtworkSvg {
         for (let i = 0; i < imgData.data.length; i += 4) {
 
 
-            if (imgData.data[i +3] === 255 && imgData.data[i + 1] === 0 && imgData.data[i + 1] === 0 && imgData.data[i] === 0) {
+            if (imgData.data[i +3] === 255 && imgData.data[i + 1] < 150 && imgData.data[i + 1] < 150 && imgData.data[i] < 150) {
                 const htmlTextElement = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-                htmlTextElement.setAttributeNS(null, 'x', ((i % (size * 4)) + 90));
-                htmlTextElement.setAttributeNS(null, 'y', y);
+                htmlTextElement.setAttributeNS(null, 'x', ((i % (size * 4))));
+                htmlTextElement.setAttributeNS(null, 'y', y );
+                //htmlTextElement.setAttributeNS(null, 'style', "font-size: 10px");
                 if(i % (size * 4) === 0) {
-                    y += 1;
+                    y += 4;
                 }
                 let textNode = document.createTextNode(".");
                 htmlTextElement.appendChild(textNode);
                 this.artWorkDiv.append(htmlTextElement);
             }
 
+
         }
+
 
 
     }
