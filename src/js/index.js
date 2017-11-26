@@ -21,20 +21,29 @@ class ArtworkSvg {
         var imgData = ctx.getImageData(0, 0, size, size);
         console.log(imgData);
         let y = -1;
+        console.log(this.getRandomArbitrary(0,1));
+        var CSS_COLOR_NAMES = ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"]
+
         for (let i = 0; i < imgData.data.length; i += 4) {
 
 
             if (imgData.data[i +3] === 255 && imgData.data[i + 1] < 150 && imgData.data[i + 1] < 150 && imgData.data[i] < 150) {
-                const htmlTextElement = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-                htmlTextElement.setAttributeNS(null, 'x', ((i % (size * 4))));
-                htmlTextElement.setAttributeNS(null, 'y', y );
-                //htmlTextElement.setAttributeNS(null, 'style', "font-size: 10px");
+                const htmlTextElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+
+                htmlTextElement.setAttributeNS(null, 'cx', ((i % (size * 4))));
+                htmlTextElement.setAttributeNS(null, 'cy', y );
+                htmlTextElement.setAttributeNS(null, 'r', 5 );
+               htmlTextElement.setAttributeNS(null, 'fill', CSS_COLOR_NAMES[this.getRandomInt(0,CSS_COLOR_NAMES.length)]);
+                //htmlTextElement.setAttributeNS(null, 'fill', "black");
                 if(i % (size * 4) === 0) {
                     y += 4;
                 }
-                let textNode = document.createTextNode(".");
-                htmlTextElement.appendChild(textNode);
-                this.artWorkDiv.append(htmlTextElement);
+                let textNode = document.createTextNode("LOVE");
+                if(this.getRandomInt(1,1) === 1) {
+                    htmlTextElement.appendChild(textNode);
+                    this.artWorkDiv.append(htmlTextElement);
+                }
+
             }
 
 
@@ -42,6 +51,11 @@ class ArtworkSvg {
 
 
 
+    }
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 
     getRandomArbitrary(min, max) {
