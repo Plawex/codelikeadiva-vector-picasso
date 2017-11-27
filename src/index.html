@@ -29,29 +29,67 @@
     </div>
 </div>
 
-<input type="file"
-       id="files" name="files[]" multiple/>
-<output id="list"></output>
-<p></p>
-<label for="grayscale">Black-White Filter</label>
-<input id="grayscale" type="range" min="0"
-       max="255" value="255"/> </figure>
-<p id="grayscaleValue">255</p>
-<label for="size">Size</label>
-<input id="size" type="range" min="0"
-       max="6" value="1"/> </figure>
-<p id="sizeValue">1</p>
-<label for="space">Space</label>
-<input id="space" type="range" min="1"
-       max="6" value="1"/> </figure>
-<p id="spaceValue">1</p>
-<button id="button1" type="button">Neu laden</button>
-<select id="select1" name="Forms">
-    <option value="circle">Circle</option>
-    <option value="rect">Rectangle</option>
-    <option value="text">Text</option>
-</select>
-<input id="text" type="text">
+<div class="optionBar">
 
+
+    <div class="optionBox">
+
+        <div class="floatLeft">
+            <label for="grayscale">Black-White Filter</label>
+            <span id="grayscaleValue">255</span>
+        </div>
+        <div class="floatRight">
+
+            <input class="slider" id="grayscale" type="range" min="0"
+                   max="255" value="255"/>
+        </div>
+    </div>
+    <div class="optionBox">
+        <div class="floatLeft">
+            <label for="size">Size</label>
+            <span id="sizeValue">1</span>
+        </div>
+        <div class="floatRight">
+
+            <input class="slider" id="size" type="range" min="0"
+                   max="6" value="1"/>
+        </div>
+    </div>
+    <div class="optionBox">
+        <div class="floatLeft">
+            <label for="space">Distance</label>
+            <span id="spaceValue">1</span>
+        </div>
+        <div class="floatRight">
+
+            <input class="slider" id="space" type="range" min="1"
+                   max="6" value="1"/>
+        </div>
+    </div>
+    <div class="optionBox">
+        <div class="floatLeft">
+        <label for="select1">Style:</label>
+            <select id="select1" name="Forms">
+                <option value="circle">Circle</option>
+                <option value="rect">Rectangle</option>
+                <option value="text">Text</option>
+            </select>
+        </div>
+        <div class="floatRight">
+            <input  class="textField" placeholder="Text field" id="text" type="text">
+        </div>
+    </div>
+    <div class="optionBox">
+        <div class="floatRight">
+            <input accept=".jpg, .jpeg, .png" class="inputfile" type="file"
+                   id="files" name="files[]" multiple/>
+        </div>
+    </div>
+    <button class="button" id="button1" type="button">Reload</button>
+
+
+
+
+</div>
 </body>
 </html>

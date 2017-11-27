@@ -16,6 +16,7 @@ class Artwork {
         //Fileupload
         document.getElementById('files').addEventListener('change', (event) => {
             const datei = event.target.files[0]; // FileList object
+
             if (!datei.type.match('image.*')) {
                 alert("error")
             }
@@ -82,7 +83,6 @@ class Artwork {
             x.disabled = false;
         }, 2000);
 
-
         if (this.active) {
             while (this.artWorkDiv.firstChild) {
                 this.artWorkDiv.removeChild(this.artWorkDiv.firstChild);
@@ -106,8 +106,6 @@ class Artwork {
         var imgData = ctx.getImageData(0, 0, size, size);
         console.log(imgData);
         let y = -1;
-        var CSS_COLOR_NAMES = ["AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "Cyan", "DarkBlue", "DarkCyan", "DarkGoldenRod", "DarkGray", "DarkGrey", "DarkGreen", "DarkKhaki", "DarkMagenta", "DarkOliveGreen", "Darkorange", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen", "DarkSlateBlue", "DarkSlateGray", "DarkSlateGrey", "DarkTurquoise", "DarkViolet", "DeepPink", "DeepSkyBlue", "DimGray", "DimGrey", "DodgerBlue", "FireBrick", "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite", "Gold", "GoldenRod", "Gray", "Grey", "Green", "GreenYellow", "HoneyDew", "HotPink", "IndianRed", "Indigo", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LawnGreen", "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGray", "LightGrey", "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGray", "LightSlateGrey", "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", "Red", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateBlue", "SlateGray", "SlateGrey", "Snow", "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", "Wheat", "White", "WhiteSmoke", "Yellow", "YellowGreen"]
-        let test;
         for (let i = 0; i < imgData.data.length; i += (4 * space)) {
 
             if (imgData.data[i + 3] === 255 && imgData.data[i + 1] < grayscaleInputElement.value && imgData.data[i + 2] < grayscaleInputElement.value && imgData.data[i] < grayscaleInputElement.value) {
@@ -119,10 +117,7 @@ class Artwork {
                 htmlTextElement.setAttributeNS(null, 'cy', y);
                 htmlTextElement.setAttributeNS(null, 'width', dotsize);
                 htmlTextElement.setAttributeNS(null, 'height', dotsize);
-
                 htmlTextElement.setAttributeNS(null, 'r', dotsize);
-
-                //htmlTextElement.setAttributeNS(null, 'fill', CSS_COLOR_NAMES[this.getRandomInt(0,CSS_COLOR_NAMES.length)]);
                 htmlTextElement.setAttributeNS(null, 'fill', this.rgbToHex(imgData.data[i], imgData.data[i + 1], imgData.data[i + 2]));
                 if (i % (size * 4) === 0) {
                     y += 3;
