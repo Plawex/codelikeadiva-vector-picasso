@@ -1,36 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title><%= htmlWebpackPlugin.options.title %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
-    <link rel="shortcut icon" href="https://www.diva-e.com/fileadmin/templates/fluid/images/favicon.ico" type="image/x-icon">
-  </head>
-  <body>
-    <h1><%= htmlWebpackPlugin.options.pageTitle %></h1>
-    <h2><%= htmlWebpackPlugin.options.challengeTitle %></h2>
+    <link rel="shortcut icon" href="https://www.diva-e.com/fileadmin/templates/fluid/images/favicon.ico"
+          type="image/x-icon">
+</head>
+<body>
+<h1><%= htmlWebpackPlugin.options.pageTitle %></h1>
+<h2><%= htmlWebpackPlugin.options.challengeTitle %></h2>
 
-    <div id="artwork-border">
-      <div id="artwork-wrapper" style="width: 842px; height: 596px;">
+<div id="artwork-border">
+    <div id="artwork-wrapper" style="width: 842px; height: 596px;">
         <svg id="artwork-svg" version="1.1" xmlns="http://www.w3.org/2000/svg" width="842" height="596">
-          <!-- replace content of SVG with your art [START] -->
+            <!-- replace content of SVG with your art [START] -->
 
-          <!-- replace content of SVG with your art [END] -->
+            <!-- replace content of SVG with your art [END] -->
         </svg>
-          <input type="file"
-                 id="files" name="files[]" multiple />
-          <output id="list"></output>
-
-        <div>
-
     </div>
+</div>
 
-    <div id="credits">
-      <div class="block">
+
+<div id="credits">
+    <div class="block">
         <label class="title">title of your artwork</label>
         <label class="artist">your name</label>
-      </div>
     </div>
+</div>
 
-  </body>
+<input type="file"
+       id="files" name="files[]" multiple/>
+<output id="list"></output>
+<p></p>
+<label for="grayscale">Black-White Filter</label>
+<input id="grayscale" type="range" min="0"
+       max="255" value="255"/> </figure>
+<p id="grayscaleValue">255</p>
+<label for="size">Size</label>
+<input id="size" type="range" min="0"
+       max="6" value="1"/> </figure>
+<p id="sizeValue">1</p>
+<button id="button1" type="button">Neu laden</button>
+<select id="select1" name="Forms">
+    <option value="circle">Circle</option>
+    <option value="rect">Rectangle</option>
+    <option value="text">Text</option>
+</select>
+<input id="text" type="text">
+
+</body>
 </html>
