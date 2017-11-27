@@ -7,7 +7,6 @@ class Artwork {
 
     init() {
         this.bindEvents();
-
     }
 
     bindEvents() {
@@ -34,62 +33,51 @@ class Artwork {
         });
         // Nav:
         // New Load
-        document.getElementById('button1').addEventListener('click', () => {
+        document.getElementById('reloadButton').addEventListener('click', () => {
             self.create();
         });
         // Black-White Filter
-        document.querySelector('#grayscale').addEventListener('input', () => {
-            self.grayScale()
-        } );
+        document.getElementById('blackWhiteFilter').addEventListener('input', () => {
+            self.changeFilter()
+        });
         // Size Elements
         document.querySelector('#size').addEventListener('input', () => {
-            self.sizeF()
-        } );
+            self.changeSize()
+        });
         // Space
         document.querySelector('#space').addEventListener('input', () => {
-            self.spaceF()
-        } );
+            self.changeSpace()
+        });
     }
 
-    sizeF() {
+    changeSize() {
         let grayscaleInputElement = document.querySelector('#size');
         let x = document.getElementById('sizeValue');
         x.innerHTML = grayscaleInputElement.value;
     }
 
-    spaceF() {
+    changeSpace() {
         let grayscaleInputElement = document.querySelector('#space');
-
         let x = document.getElementById('spaceValue');
-
         x.innerHTML = grayscaleInputElement.value;
-
-
     }
-    grayScale() {
-        let grayscaleInputElement = document.querySelector('#grayscale');
 
-        let x = document.getElementById('grayscaleValue');
-
-        x.innerHTML = grayscaleInputElement.value;
-
-
+    changeFilter() {
+        let filterValue = document.getElementById('blackWhiteFilterOutput');
+        filterValue.innerHTML = document.getElementById('blackWhiteFilter').value;
     }
 
     create() {
-        let x = document.getElementById('button1');
-        x.disabled = true;
-        setTimeout(function () {
-            x.disabled = false;
-        }, 2000);
+        this.reloadBlock();
 
+        //delete existing svg
         if (this.active) {
             while (this.artWorkDiv.firstChild) {
                 this.artWorkDiv.removeChild(this.artWorkDiv.firstChild);
             }
         }
         let select = document.getElementById("select1");
-        let grayscaleInputElement = document.querySelector('#grayscale');
+        let grayscaleInputElement = document.getElementById('blackWhiteFilter');
         let dotsize = document.querySelector('#size').value;
         let text = document.getElementById('text').value;
         let space = document.querySelector('#space').value;
@@ -110,30 +98,29 @@ class Artwork {
 
             if (imgData.data[i + 3] === 255 && imgData.data[i + 1] < grayscaleInputElement.value && imgData.data[i + 2] < grayscaleInputElement.value && imgData.data[i] < grayscaleInputElement.value) {
                 const htmlTextElement = document.createElementNS("http://www.w3.org/2000/svg", select.value);
-
                 htmlTextElement.setAttributeNS(null, 'x', ((i % (size * 4)) ));
                 htmlTextElement.setAttributeNS(null, 'y', y);
                 htmlTextElement.setAttributeNS(null, 'cx', ((i % (size * 4))));
                 htmlTextElement.setAttributeNS(null, 'cy', y);
-                htmlTextElement.setAttributeNS(null, 'width', dotsize);
-                htmlTextElement.setAttributeNS(null, 'height', dotsize);
+                htmlTextElement.setAttributeNS(null, 'font-size', dotsize);
                 htmlTextElement.setAttributeNS(null, 'r', dotsize);
                 htmlTextElement.setAttributeNS(null, 'fill', this.rgbToHex(imgData.data[i], imgData.data[i + 1], imgData.data[i + 2]));
                 if (i % (size * 4) === 0) {
                     y += 3;
                 }
                 let textNode = document.createTextNode(text);
-
                 htmlTextElement.appendChild(textNode);
                 this.artWorkDiv.append(htmlTextElement);
-
-
                 this.active = true;
-
             }
         }
-
-
+    }
+    reloadBlock() {
+        let reloadButton = document.getElementById('reloadButton');
+        reloadButton.disabled = true;
+        setTimeout(function () {
+            reloadButton.disabled = false;
+        }, 2000);
     }
 
     componentToHex(c) {

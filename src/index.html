@@ -35,12 +35,12 @@
     <div class="optionBox">
 
         <div class="floatLeft">
-            <label for="grayscale">Black-White Filter</label>
-            <span id="grayscaleValue">255</span>
+            <label for="blackWhiteFilter">Black-White Filter</label>
+            <span id="blackWhiteFilterOutput">255</span>
         </div>
         <div class="floatRight">
 
-            <input class="slider" id="grayscale" type="range" min="0"
+            <input class="slider" id="blackWhiteFilter" type="range" min="0"
                    max="255" value="255"/>
         </div>
     </div>
@@ -51,8 +51,8 @@
         </div>
         <div class="floatRight">
 
-            <input class="slider" id="size" type="range" min="0"
-                   max="6" value="1"/>
+            <input class="slider" id="size" type="range" min="1"
+                   max="30" value="1"/>
         </div>
     </div>
     <div class="optionBox">
@@ -68,15 +68,15 @@
     </div>
     <div class="optionBox">
         <div class="floatLeft">
-        <label for="select1">Style:</label>
-            <select id="select1" name="Forms">
+            <label for="select1">Style:</label>
+            <select class="selector" id="select1" name="Forms">
                 <option value="circle">Circle</option>
                 <option value="rect">Rectangle</option>
                 <option value="text">Text</option>
             </select>
         </div>
         <div class="floatRight">
-            <input  class="textField" placeholder="Text field" id="text" type="text">
+            <input class="textField" placeholder="Text field" id="text" type="text">
         </div>
     </div>
     <div class="optionBox">
@@ -85,9 +85,7 @@
                    id="files" name="files[]" multiple/>
         </div>
     </div>
-    <button class="button" id="button1" type="button">Reload</button>
-
-
+    <button class="button" id="reloadButton" type="button">Reload</button>
 
 
 </div>
