@@ -29,7 +29,7 @@ class ArtworkSvg {
         let grayscaleInputElement = document.querySelector('#grayscale');
         let dotsize = document.querySelector('#size').value;
         let text = document.getElementById('text').value;
-        let space = 1;
+        let space = document.querySelector('#space').value;
         let img = this.vorschau;
         var c = document.createElement('canvas');
         let size = 200;
@@ -110,7 +110,7 @@ function grayScale() {
 
 function sizeF() {
 
-
+    let grayscaleInputElement = document.querySelector('#size');
     let x = document.getElementById('sizeValue');
 
     x.innerHTML = grayscaleInputElement.value;
@@ -118,7 +118,7 @@ function sizeF() {
 
 }
 function spaceF() {
-
+    let grayscaleInputElement = document.querySelector('#space');
 
     let x = document.getElementById('spaceValue');
 
@@ -137,6 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
     grayscaleInputElement.addEventListener('input', grayScale);
     let size = document.querySelector('#size');
     size.addEventListener('input', sizeF);
+    let space = document.querySelector('#space');
+    space.addEventListener('input', spaceF);
 
     document.getElementById('files')
         .addEventListener('change', dateiauswahl, false);
