@@ -21,7 +21,6 @@
     </div>
 </div>
 
-
 <div id="credits">
     <div class="block">
         <label class="title">title of your artwork</label>
@@ -30,46 +29,37 @@
 </div>
 
 <div class="optionBar">
-
-
     <div class="optionBox">
-
         <div class="floatLeft">
             <label for="blackWhiteFilter">Black-White Filter</label>
             <span id="blackWhiteFilterOutput">255</span>
         </div>
         <div class="floatRight">
-
-            <input class="slider" id="blackWhiteFilter" type="range" min="0"
-                   max="255" value="255"/>
+            <input class="slider" id="blackWhiteFilter" type="range" min="0" max="255" value="255"/>
         </div>
     </div>
     <div class="optionBox">
         <div class="floatLeft">
-            <label for="size">Size</label>
-            <span id="sizeValue">1</span>
+            <label for="sizeSlider">Size</label>
+            <span id="sizeOutput">1</span>
         </div>
         <div class="floatRight">
-
-            <input class="slider" id="size" type="range" min="1"
-                   max="30" value="1"/>
+            <input class="slider" id="sizeSlider" type="range" min="1" max="30" value="1"/>
         </div>
     </div>
     <div class="optionBox">
         <div class="floatLeft">
-            <label for="space">Distance</label>
-            <span id="spaceValue">1</span>
+            <label for="distanceSlider">Distance</label>
+            <span id="distanceOutput">1</span>
         </div>
         <div class="floatRight">
-
-            <input class="slider" id="space" type="range" min="1"
-                   max="6" value="1"/>
+            <input class="slider" id="distanceSlider" type="range" min="1" max="6" value="1"/>
         </div>
     </div>
     <div class="optionBox">
         <div class="floatLeft">
-            <label for="select1">Style:</label>
-            <select class="selector" id="select1" name="Forms">
+            <label for="styleSelector">Style:</label>
+            <select id="styleSelector" name="Forms">
                 <option value="circle">Circle</option>
                 <option value="rect">Rectangle</option>
                 <option value="text">Text</option>
@@ -86,8 +76,6 @@
         </div>
     </div>
     <button class="button" id="reloadButton" type="button">Reload</button>
-
-
 </div>
 </body>
 </html>

@@ -1,8 +1,14 @@
 class Artwork {
     constructor() {
-        this.vorschau = [];
+        this.uploadedImage = [];
         this.artWorkDiv = document.getElementById("artwork-svg");
         this.active = false;
+        this.blackWhiteFilter = document.getElementById('blackWhiteFilter');
+        this.sizeSlider = document.getElementById('sizeSlider');
+        this.distanceSlider = document.getElementById('distanceSlider');
+        this.selector = document.getElementById("styleSelector");
+        this.textField = document.getElementById('text');
+        this.reloadButton = document.getElementById('reloadButton');
     }
 
     init() {
@@ -11,7 +17,6 @@ class Artwork {
 
     bindEvents() {
         let self = this;
-
         //Fileupload
         document.getElementById('files').addEventListener('change', (event) => {
             const datei = event.target.files[0]; // FileList object
@@ -22,8 +27,8 @@ class Artwork {
             let reader = new FileReader();
             reader.onload = (function () {
                 return function (e) {
-                    self.vorschau = document.createElement('img');
-                    self.vorschau.src = e.target.result;
+                    self.uploadedImage = document.createElement('img');
+                    self.uploadedImage.src = e.target.result;
                 };
             })(datei);
             reader.readAsDataURL(datei);
@@ -37,94 +42,96 @@ class Artwork {
             self.create();
         });
         // Black-White Filter
-        document.getElementById('blackWhiteFilter').addEventListener('input', () => {
+        this.blackWhiteFilter.addEventListener('input', () => {
             self.changeFilter()
         });
         // Size Elements
-        document.querySelector('#size').addEventListener('input', () => {
+        this.sizeSlider.addEventListener('input', () => {
             self.changeSize()
         });
-        // Space
-        document.querySelector('#space').addEventListener('input', () => {
-            self.changeSpace()
+        // Distance
+        this.distanceSlider.addEventListener('input', () => {
+            self.changeDistance()
         });
     }
 
     changeSize() {
-        let grayscaleInputElement = document.querySelector('#size');
-        let x = document.getElementById('sizeValue');
-        x.innerHTML = grayscaleInputElement.value;
+        let sizeOutput = document.getElementById('sizeOutput');
+        sizeOutput.innerHTML = this.sizeSlider.value;
     }
 
-    changeSpace() {
-        let grayscaleInputElement = document.querySelector('#space');
-        let x = document.getElementById('spaceValue');
-        x.innerHTML = grayscaleInputElement.value;
+    changeDistance() {
+        let distanceOutput = document.getElementById('distanceOutput');
+        distanceOutput.innerHTML = this.distanceSlider.value;
     }
 
     changeFilter() {
-        let filterValue = document.getElementById('blackWhiteFilterOutput');
-        filterValue.innerHTML = document.getElementById('blackWhiteFilter').value;
+        let filterOutput = document.getElementById('blackWhiteFilterOutput');
+        filterOutput.innerHTML = this.blackWhiteFilter.value;
     }
 
-    create() {
-        this.reloadBlock();
-
-        //delete existing svg
+    deleteExistingSvg() {
         if (this.active) {
             while (this.artWorkDiv.firstChild) {
                 this.artWorkDiv.removeChild(this.artWorkDiv.firstChild);
             }
         }
-        let select = document.getElementById("select1");
-        let grayscaleInputElement = document.getElementById('blackWhiteFilter');
-        let dotsize = document.querySelector('#size').value;
-        let text = document.getElementById('text').value;
-        let space = document.querySelector('#space').value;
-        let img = this.vorschau;
-        var c = document.createElement('canvas');
-        let size = 200;
-        c.setAttribute('width', size);
-        c.setAttribute('height', size);
-        var ctx = c.getContext("2d");
+    }
 
-        console.log(this.rgbToHex(47, 47, 47));
-
+    create() {
+        this.blockReloadButton();
+        this.deleteExistingSvg();
+        // Get values
+        let selectedStyle = this.selector.value;
+        let blackWhiteFilterValue = this.blackWhiteFilter.value;
+        let elementSize = this.sizeSlider.value;
+        let text = this.textField.value;
+        let distanceValue = this.distanceSlider.value;
+        let img = this.uploadedImage;
+        // Create Canvas
+        let canvas = document.createElement('canvas');
+        const canvasSize = 200;
+        canvas.setAttribute('width', canvasSize);
+        canvas.setAttribute('height', canvasSize);
+        let ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
-        var imgData = ctx.getImageData(0, 0, size, size);
+        let imgData = ctx.getImageData(0, 0, canvasSize, canvasSize);
         console.log(imgData);
+        // Create Elements
         let y = -1;
-        for (let i = 0; i < imgData.data.length; i += (4 * space)) {
-
-            if (imgData.data[i + 3] === 255 && imgData.data[i + 1] < grayscaleInputElement.value && imgData.data[i + 2] < grayscaleInputElement.value && imgData.data[i] < grayscaleInputElement.value) {
-                const htmlTextElement = document.createElementNS("http://www.w3.org/2000/svg", select.value);
-                htmlTextElement.setAttributeNS(null, 'x', ((i % (size * 4)) ));
+        for (let i = 0; i < imgData.data.length; i += (4 * distanceValue)) {
+            if (imgData.data[i + 3] === 255 && imgData.data[i + 1] < blackWhiteFilterValue && imgData.data[i + 2] < blackWhiteFilterValue && imgData.data[i] < blackWhiteFilterValue) {
+                const htmlTextElement = document.createElementNS("http://www.w3.org/2000/svg", selectedStyle);
+                htmlTextElement.setAttributeNS(null, 'x', ((i % (canvasSize * 4)) ));
                 htmlTextElement.setAttributeNS(null, 'y', y);
-                htmlTextElement.setAttributeNS(null, 'cx', ((i % (size * 4))));
+                htmlTextElement.setAttributeNS(null, 'cx', ((i % (canvasSize * 4))));
                 htmlTextElement.setAttributeNS(null, 'cy', y);
-                htmlTextElement.setAttributeNS(null, 'font-size', dotsize);
-                htmlTextElement.setAttributeNS(null, 'r', dotsize);
+                htmlTextElement.setAttributeNS(null, 'font-size', elementSize);
+                htmlTextElement.setAttributeNS(null, 'r', elementSize);
+                htmlTextElement.setAttributeNS(null, 'height', elementSize);
+                htmlTextElement.setAttributeNS(null, 'width', elementSize);
                 htmlTextElement.setAttributeNS(null, 'fill', this.rgbToHex(imgData.data[i], imgData.data[i + 1], imgData.data[i + 2]));
-                if (i % (size * 4) === 0) {
-                    y += 3;
-                }
                 let textNode = document.createTextNode(text);
                 htmlTextElement.appendChild(textNode);
                 this.artWorkDiv.append(htmlTextElement);
                 this.active = true;
+
+                if (i % (canvasSize * 4) === 0) {
+                    y += 3;
+                }
             }
         }
     }
-    reloadBlock() {
-        let reloadButton = document.getElementById('reloadButton');
-        reloadButton.disabled = true;
+
+    blockReloadButton() {
+        this.reloadButton.disabled = true;
         setTimeout(function () {
-            reloadButton.disabled = false;
+            this.reloadButton.disabled = false;
         }, 2000);
     }
 
     componentToHex(c) {
-        var hex = c.toString(16);
+        let hex = c.toString(16);
         return hex.length == 1 ? "0" + hex : hex;
     }
 

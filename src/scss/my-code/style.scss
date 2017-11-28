@@ -1,24 +1,22 @@
-.optionBar{
+.optionBar {
   position: absolute;
-  right: 0;
-  top: 0;
+  right:18%;
+  top: 0px;
   margin: 20px;
 
-
-
 }
-.upload{
 
-}
 .optionBox {
   display: block;
   height: 25px;
 }
-.floatLeft{
+
+.floatLeft {
   float: left;
   width: 170px;
 }
-.floatRight{
+
+.floatRight {
   float: right;
 }
 
@@ -40,7 +38,6 @@
 
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
   width: 25px;
   height: 25px;
   border-radius: 50%;
@@ -59,19 +56,24 @@
   cursor: pointer;
   border-radius: 12px;
 }
+
 .textField {
   text-align: center;
   width: 125px;
 }
-.selector {
 
+.selector {
   border: 1px solid #AAA;
   color: #555;
   overflow: hidden;
-
-
-
 }
 
+@media only screen and (max-width: 1600px) {
+  .optionBar {
+    right: 0px;
+
+
+  }
+}
 
 
