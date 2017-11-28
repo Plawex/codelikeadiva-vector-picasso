@@ -20,7 +20,6 @@ class Artwork {
         //Fileupload
         document.getElementById('files').addEventListener('change', (event) => {
             const datei = event.target.files[0]; // FileList object
-
             if (!datei.type.match('image.*')) {
                 alert("error")
             }
@@ -90,37 +89,44 @@ class Artwork {
         let img = this.uploadedImage;
         // Create Canvas
         let canvas = document.createElement('canvas');
-        const canvasSize = 200;
+        const canvasSize = 220;
         canvas.setAttribute('width', canvasSize);
         canvas.setAttribute('height', canvasSize);
         let ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
         let imgData = ctx.getImageData(0, 0, canvasSize, canvasSize);
-        console.log(imgData);
         // Create Elements
-        let y = -1;
+        let y = -3 * distanceValue;
         for (let i = 0; i < imgData.data.length; i += (4 * distanceValue)) {
-            if (imgData.data[i + 3] === 255 && imgData.data[i + 1] < blackWhiteFilterValue && imgData.data[i + 2] < blackWhiteFilterValue && imgData.data[i] < blackWhiteFilterValue) {
+            if (i % (canvasSize * 4 * distanceValue) === 0) {
+                y += 3 * distanceValue;
+            }
+            if (imgData.data[i + 1] < blackWhiteFilterValue && imgData.data[i + 2] < blackWhiteFilterValue && imgData.data[i] < blackWhiteFilterValue) {
                 const htmlTextElement = document.createElementNS("http://www.w3.org/2000/svg", selectedStyle);
+                htmlTextElement.setAttributeNS(null, 'fill', this.rgbToHex(imgData.data[i], imgData.data[i + 1], imgData.data[i + 2]));
                 htmlTextElement.setAttributeNS(null, 'x', ((i % (canvasSize * 4)) ));
                 htmlTextElement.setAttributeNS(null, 'y', y);
-                htmlTextElement.setAttributeNS(null, 'cx', ((i % (canvasSize * 4))));
-                htmlTextElement.setAttributeNS(null, 'cy', y);
-                htmlTextElement.setAttributeNS(null, 'font-size', elementSize);
-                htmlTextElement.setAttributeNS(null, 'r', elementSize);
-                htmlTextElement.setAttributeNS(null, 'height', elementSize);
-                htmlTextElement.setAttributeNS(null, 'width', elementSize);
-                htmlTextElement.setAttributeNS(null, 'fill', this.rgbToHex(imgData.data[i], imgData.data[i + 1], imgData.data[i + 2]));
-                let textNode = document.createTextNode(text);
-                htmlTextElement.appendChild(textNode);
-                this.artWorkDiv.append(htmlTextElement);
-                this.active = true;
-
-                if (i % (canvasSize * 4) === 0) {
-                    y += 3;
+                switch (selectedStyle) {
+                    case 'text':
+                        htmlTextElement.setAttributeNS(null, 'font-size', elementSize);
+                        let textNode = document.createTextNode(text);
+                        htmlTextElement.appendChild(textNode);
+                        break;
+                    case 'rect':
+                        htmlTextElement.setAttributeNS(null, 'height', elementSize);
+                        htmlTextElement.setAttributeNS(null, 'width', elementSize);
+                        break;
+                    case 'circle':
+                        htmlTextElement.setAttributeNS(null, 'cx', ((i % (canvasSize * 4))));
+                        htmlTextElement.setAttributeNS(null, 'cy', y);
+                        htmlTextElement.setAttributeNS(null, 'r', elementSize);
+                        break;
+                    default:
                 }
+                this.artWorkDiv.append(htmlTextElement);
             }
         }
+        this.active = true;
     }
 
     blockReloadButton() {
