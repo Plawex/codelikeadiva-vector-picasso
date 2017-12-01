@@ -9,6 +9,7 @@ class Artwork {
         this.selector = document.getElementById("styleSelector");
         this.textField = document.getElementById('text');
         this.reloadButton = document.getElementById('reloadButton');
+        this.canvasSize = 220;
     }
 
     init() {
@@ -77,9 +78,19 @@ class Artwork {
         }
     }
 
+    getPixelDataArray(img){
+        let canvas = document.createElement('canvas');
+        canvas.setAttribute('width', this.canvasSize);
+        canvas.setAttribute('height', this.canvasSize);
+        let ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        return ctx.getImageData(0, 0, this.canvasSize, this.canvasSize);
+    }
+
     create() {
         this.blockReloadButton();
         this.deleteExistingSvg();
+
         // Get values
         let selectedStyle = this.selector.value;
         let blackWhiteFilterValue = this.blackWhiteFilter.value;
@@ -87,43 +98,37 @@ class Artwork {
         let text = this.textField.value;
         let distanceValue = this.distanceSlider.value;
         let img = this.uploadedImage;
-        // Create Canvas
-        let canvas = document.createElement('canvas');
-        const canvasSize = 220;
-        canvas.setAttribute('width', canvasSize);
-        canvas.setAttribute('height', canvasSize);
-        let ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        let imgData = ctx.getImageData(0, 0, canvasSize, canvasSize);
-        // Create Elements
+        let imgData = this.getPixelDataArray(img);
+
+        // Create Svg
         let y = -3 * distanceValue;
         for (let i = 0; i < imgData.data.length; i += (4 * distanceValue)) {
-            if (i % (canvasSize * 4 * distanceValue) === 0) {
+            if (i % (this.canvasSize * 4 * distanceValue) === 0) {
                 y += 3 * distanceValue;
             }
             if (imgData.data[i + 1] < blackWhiteFilterValue && imgData.data[i + 2] < blackWhiteFilterValue && imgData.data[i] < blackWhiteFilterValue) {
-                const htmlTextElement = document.createElementNS("http://www.w3.org/2000/svg", selectedStyle);
-                htmlTextElement.setAttributeNS(null, 'fill', this.rgbToHex(imgData.data[i], imgData.data[i + 1], imgData.data[i + 2]));
-                htmlTextElement.setAttributeNS(null, 'x', ((i % (canvasSize * 4)) ));
-                htmlTextElement.setAttributeNS(null, 'y', y);
+                const svgElement = document.createElementNS("http://www.w3.org/2000/svg", selectedStyle);
+                svgElement.setAttributeNS(null, 'fill', this.rgbToHex(imgData.data[i], imgData.data[i + 1], imgData.data[i + 2]));
+                svgElement.setAttributeNS(null, 'x', ((i % (this.canvasSize * 4)) ));
+                svgElement.setAttributeNS(null, 'y', y);
                 switch (selectedStyle) {
                     case 'text':
-                        htmlTextElement.setAttributeNS(null, 'font-size', elementSize);
+                        svgElement.setAttributeNS(null, 'font-size', elementSize);
                         let textNode = document.createTextNode(text);
-                        htmlTextElement.appendChild(textNode);
+                        svgElement.appendChild(textNode);
                         break;
                     case 'rect':
-                        htmlTextElement.setAttributeNS(null, 'height', elementSize);
-                        htmlTextElement.setAttributeNS(null, 'width', elementSize);
+                        svgElement.setAttributeNS(null, 'height', elementSize);
+                        svgElement.setAttributeNS(null, 'width', elementSize);
                         break;
                     case 'circle':
-                        htmlTextElement.setAttributeNS(null, 'cx', ((i % (canvasSize * 4))));
-                        htmlTextElement.setAttributeNS(null, 'cy', y);
-                        htmlTextElement.setAttributeNS(null, 'r', elementSize);
+                        svgElement.setAttributeNS(null, 'cx', ((i % (this.canvasSize * 4))));
+                        svgElement.setAttributeNS(null, 'cy', y);
+                        svgElement.setAttributeNS(null, 'r', elementSize);
                         break;
                     default:
                 }
-                this.artWorkDiv.append(htmlTextElement);
+                this.artWorkDiv.append(svgElement);
             }
         }
         this.active = true;
