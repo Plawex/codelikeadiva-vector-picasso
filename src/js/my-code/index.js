@@ -104,7 +104,7 @@ class Artwork {
             if (i % (this.canvasSize * 4 * distanceValue) === 0) {
                 y += 3 * distanceValue;
             }
-            if (imgData.data[i + 1] < blackWhiteFilterValue && imgData.data[i + 2] < blackWhiteFilterValue && imgData.data[i] < blackWhiteFilterValue) {
+            if (imgData.data[i + 1] <= blackWhiteFilterValue && imgData.data[i + 2] <= blackWhiteFilterValue && imgData.data[i] <= blackWhiteFilterValue) {
                 const svgElement = document.createElementNS("http://www.w3.org/2000/svg", selectedStyle);
                 svgElement.setAttributeNS(null, 'fill', this.rgbToHex(imgData.data[i], imgData.data[i + 1], imgData.data[i + 2]));
                 svgElement.setAttributeNS(null, 'x', ((i % (this.canvasSize * 4)) ));
