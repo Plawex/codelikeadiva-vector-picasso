@@ -90,7 +90,6 @@ class Artwork {
     create() {
         this.blockReloadButton();
         this.deleteExistingSvg();
-
         // Get values
         let selectedStyle = this.selector.value;
         let blackWhiteFilterValue = this.blackWhiteFilter.value;
@@ -99,7 +98,6 @@ class Artwork {
         let distanceValue = this.distanceSlider.value;
         let img = this.uploadedImage;
         let imgData = this.getPixelDataArray(img);
-
         // Create Svg
         let y = -3 * distanceValue;
         for (let i = 0; i < imgData.data.length; i += (4 * distanceValue)) {
